@@ -59,16 +59,17 @@ E.g. Say we have 2 documents.
 Doc1: "This explains how cars work."
 Doc2: "Cars can carry multiple persons."
 
-Terms          Presence
-This           doc1
-explains       doc1
-how            doc1
-cars           doc1, doc2 
-work           doc1
-can            doc2
-carry          doc2
-multiple       doc2
-persons        doc2
+| Terms          | Presence |
+| :----:         | :---: |
+| This           | doc1  |
+| explains       | doc1  |
+| how            | doc1  |
+| cars           | doc1, doc2 | 
+| work           | doc1 |
+| can            | doc2 |
+| carry          | doc2 |
+| multiple       | doc2 |
+| persons        | doc2 | 
 
 Advantage of Inverted Index are:
 
