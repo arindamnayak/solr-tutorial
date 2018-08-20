@@ -2,7 +2,7 @@
 
 
 ## Limitation of text search using database 
-coming soon
+[Limitation](wiki/limitation.md)
 
 ## Indexing Concepts
  - Inverted index – here. 
