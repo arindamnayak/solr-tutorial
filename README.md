@@ -5,12 +5,7 @@
 [Limitation](wiki/limitation.md)
 
 ## Indexing Concepts
- - Inverted index – here. 
- - Analyzers 
- - Tokenizers 
- - Filters 
- - Solr Document, field  
- - Schema design 
+[Concept](wiki/indexing-concept.md)
 
 ## Key features with examples
  - Standard query analyzer 
