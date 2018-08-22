@@ -7,6 +7,9 @@
 ## Indexing Concepts
 [Concept](wiki/indexing-concept.md)
 
+## Solr Building Block
+[Building block](wiki/building-block.md)
+
 ## Key features with examples
  - Standard query analyzer 
  - Faceting 
