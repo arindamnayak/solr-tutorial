@@ -10,17 +10,11 @@
 ## Solr Building Block
 [Building block](wiki/building-block.md)
 
-## Key features with examples
- - Standard query analyzer 
- - Faceting 
- - Highlighting
- - Spell checking 
- - More like this 
+## Usage and example
+[Examples](wiki/example.md)
 
-Refer to examples directory for solr core config files.
+## Limitation of Solr
+coming soon
  
- ## Limitation of Solr
- coming soon
- 
- ## Using Solr at scale 
- coming soon
+## Using Solr at scale 
+coming soon
