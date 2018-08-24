@@ -56,11 +56,103 @@ This part is divided to following sections.
 
 #### Querying
 
+- We will be using solr admin for querying. In real world, application consumes solr data via some API and show it inside application. 
+- Navigate to solr admin panel. Select "courses" core. Then click on "query" on left side just below the core selection. Then just hit `Execute query`. There you can see the results. It will list out all datas present in CSV file.
+- Lets say we can you search for `web-services`, if you put that to 2nd text box ( i.e. q), and hit the "Execute query" you can see that all result has `web-services` present somewhere in any of attribute.
+- Solr assigns some core to document based on relevancy. It uses vector space model to for score calculation, you can use this [link](https://lucene.apache.org/core/2_9_4/scoring.html) to get more info about this.
+- In admin pane, you can see there a lot of configurable things. We will go through them here.
+- Now, we have started with `q`, which takes query parameter. And we have searched for `web-services`.
+- If we want to search for `web-services` only in description field, the value of `q` will look like this `description:"web-services"`. If you execute this query you can see that only results are show where description has `web-services`. With this you can see there are total `6` records present.
+- Then we have `fq` which stands for filter query. If we want to filter the courses which has duration for 7000 to 8000 second, we can use it like `durationinseconds:[7000 TO 8000]`. With this you can see only 1 course present. Note: I still have `q=description:"web-services"`. This is mostly used along with `q`, this can utilize filter cache to give better perfomance.
+- We have parameter for `sort`. Here you can specify by which parameter you want to sort. Say we want to sort all courses by `durationinseconds`, then you can use `durationinseconds asc` in that field to sort it by ascending.
+- start, rows:. By default, sorl result shows 10 result. This parameter enables pagination. You can specify the page as `start` and rows as `number of records` to fetch.
+- fl: This enables you select whatever field you need to show in result. Say we want to show only coursetitle, description you can put the value as `coursetitle description` and on executing query you can see only those attribute values. If you want see the score for the result, you can include score as `coursetitle description score` and see score for individual documents.
+- Raw query: It enables to pass advanced parameter which is not present in admin console.
+- wt: This is writer option. Currently we are using JSON, you can change that to XML or required type of data.
+- indent: Tell whether to indent.
+- debugQuery: Lets you anayze the result, to see which part took more time. Helps you to identify the score for each document.
+
+Rest option we will cover in advanced feature.
 
 
 #### Advanced features
- - Faceting 
+ - (e)dismax: The DisMax query parser is designed to process simple phrases (without complex syntax) entered by users and to search for individual terms across several fields using different weighting (boosts) based on the significance of each field. Additional options enable users to influence the score based on rules specific to each use case (independent of user input).
+ 	- qf: specifies the fields in the index on which to perform the query. If absent, defaults to.
+ 	- mm: Minimum "Should" Match: specifies a minimum number of clauses that must match in a query.
+ 	- pf: Phrase Fields: boosts the score of documents in cases where all of the terms in the q parameter appear in close proximity.
+ 	- ps: Phrase Slop: specifies the number of positions two terms can be apart in order to match the specified phrase.
+ 	- qs: Query Phrase Slop: specifies the number of positions two terms can be apart in order to match the specified phrase. Used specifically with the qf parameter.
+ 	- tie: Tie Breaker: specifies a float value (which should be something much less than 1) to use as tiebreaker in DisMax queries. Default: 0.0
+ 	- bq: Boost Query: specifies a factor by which a term or phrase should be "boosted" in importance when considering a match.
+ 	- bf: Boost Functions: specifies functions to be applied to boosts. (See for details about function queries.)
  - Highlighting
- - Spell checking 
- - More like this 
+ 	- if you want to highlight the search result, you can use this option. I have used it like this
+ 		```
+ 		hl.fl = description
+ 		hl.simple.pre = <found>
+ 		hl.simple.post = </found>
+ 		```
+ 	- This means, it will look for desciption field to highlight the result and if that matches, it will wrap with `found` tag around.
+ 	- Here is the sample section of the result I received.
 
+	 	```
+	 	"highlighting":{
+	    "29b71398-3f08-42e5-a3b8-a93409016191":{
+	      "description":["Improve exposure, <found>build</found> <found>community</found>, and increase downloads. Learn how to market your app and manage"]},
+	    "e2c46c4d-d97b-4a20-b03d-23586a5f45ac":{},
+	    "c12c8088-b976-4064-8280-3180cedd2c1d":{},
+	    "5ff30aa3-eb85-47ab-9857-11521951a17d":{
+	      "description":["Learn how to debug <found>Web</found> applications using automated memory dumps, and how to detect and fix <found>web</found>"]},
+	    "6f868d20-e0c0-4134-83d8-f1e627ee7c31":{
+	      "description":["Learn how to debug <found>Web</found> applications using automated memory dumps, and how to detect and fix <found>web</found>"]},
+	    " ...
+	    ```
+ - Faceting: It is the arrangement of search results into categories based on indexed terms.
+	- Searchers are presented with the indexed terms, along with numerical counts of how many matching documents were found were each term. Faceting makes it easy for users to explore search results, narrowing in on exactly the results they are looking for.
+	- In our example, say we want to have faceting for duration in second and we want to show it in 1000 increment. E.g. say we have 10 courses, out of which 3 are of 1000- 2000 second, 4 are of  6000- 7000 second and rest are above 9000 second. Then search result will show following results.
+	 ```
+	 1000  (0)
+	 2000  (3)
+	 3000  (0)
+	 4000  (0)
+	 5000  (0)
+	 6000  (0)
+	 7000  (4)
+	 8000  (0)
+	 9000  (0)
+	 10000 (3)
+	 ```
+	- Here the value of faceting query we needed - `facet.range=durationinseconds&f.durationinseconds.facet.range.start=2000&f.durationinseconds.facet.range.end=20000&f.durationinseconds.facet.range.gap=1000`. I will turn of facet and use above query in raw parameter as it can't be accomodated in facet query field itself.
+	- Here is the result I will get.
+	```
+	"facet_counts":{
+    "facet_queries":{},
+    "facet_fields":{},
+    "facet_ranges":{
+      "durationinseconds":{
+        "counts":[
+          "2000",6,
+          "3000",30,
+          "4000",23,
+          "5000",32,
+          "6000",36,
+          "7000",32,
+          "8000",50,
+          "9000",44,
+          "10000",45,
+          "11000",41,
+          "12000",35,
+          "13000",34,
+          "14000",25,
+          "15000",33,
+          "16000",27,
+          "17000",17,
+          "18000",25,
+          "19000",19],
+        "gap":1000,
+        "start":2000,
+        "end":20000}},
+    "facet_intervals":{},
+    ```
+ - There is facilty to search spatial data where you have to provide lat , long, and radius info, it will get you the data within the range.
+ - There is spell check facilty which can suggest you the exact word in document.
