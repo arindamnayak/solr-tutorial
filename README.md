@@ -14,7 +14,7 @@
 [Examples](wiki/example.md)
 
 ## Limitation of Solr
-coming soon
+[Limitation of solr](wiki/limitation-solr.md)
  
 ## Using Solr at scale 
-coming soon
+[Solr at scale](wiki/scale.md)
