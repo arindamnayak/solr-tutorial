@@ -76,7 +76,10 @@ Rest option we will cover in advanced feature.
 
 
 #### Advanced features
- - (e)dismax: The DisMax query parser is designed to process simple phrases (without complex syntax) entered by users and to search for individual terms across several fields using different weighting (boosts) based on the significance of each field. Additional options enable users to influence the score based on rules specific to each use case (independent of user input).
+
+##### (e)dismax: 
+
+The DisMax query parser is designed to process simple phrases (without complex syntax) entered by users and to search for individual terms across several fields using different weighting (boosts) based on the significance of each field. Additional options enable users to influence the score based on rules specific to each use case (independent of user input).
  	- qf: specifies the fields in the index on which to perform the query. If absent, defaults to.
  	- mm: Minimum "Should" Match: specifies a minimum number of clauses that must match in a query.
  	- pf: Phrase Fields: boosts the score of documents in cases where all of the terms in the q parameter appear in close proximity.
@@ -85,7 +88,7 @@ Rest option we will cover in advanced feature.
  	- tie: Tie Breaker: specifies a float value (which should be something much less than 1) to use as tiebreaker in DisMax queries. Default: 0.0
  	- bq: Boost Query: specifies a factor by which a term or phrase should be "boosted" in importance when considering a match.
  	- bf: Boost Functions: specifies functions to be applied to boosts. (See for details about function queries.)
- - Highlighting
+##### Highlighting
  	- if you want to highlight the search result, you can use this option. I have used it like this
  		```
  		hl.fl = description
@@ -107,7 +110,9 @@ Rest option we will cover in advanced feature.
 	      "description":["Learn how to debug <found>Web</found> applications using automated memory dumps, and how to detect and fix <found>web</found>"]},
 	    " ...
 	    ```
- - Faceting: It is the arrangement of search results into categories based on indexed terms.
+##### Faceting: 
+
+It is the arrangement of search results into categories based on indexed terms.
 	- Searchers are presented with the indexed terms, along with numerical counts of how many matching documents were found were each term. Faceting makes it easy for users to explore search results, narrowing in on exactly the results they are looking for.
 	- In our example, say we want to have faceting for duration in second and we want to show it in 1000 increment. E.g. say we have 10 courses, out of which 3 are of 1000- 2000 second, 4 are of  6000- 7000 second and rest are above 9000 second. Then search result will show following results.
 	 ```
@@ -154,5 +159,51 @@ Rest option we will cover in advanced feature.
         "end":20000}},
     "facet_intervals":{},
     ```
+ ##### Synonyms
+
+ - As the same suggests, you can specify synonym for any of words being used in query or indexed document. For demo purpose, open [synonyms.txt](../example/Solr-Cores/courses/conf/synonyms.txt) and add `businesstalk => BizTalk`.
+ - Navigate to admin panel, click on core admin, select courses core, and click on reload. Every time core is changed , it needs to be refreshed like this.
+ - Then navigate to admin panel and search for `businesstalk`, there you should be getting document for `BizTalk` as we specified a synonym in the text file.
+
+ ##### Stopwords
+
+ - Here the words specified in stopwords.txt will be ignored while indexing and searching. 
+ - If you open config/manage_schema, you can notice following
+
+ ```
+ <fieldType name="text_general" class="solr.TextField" positionIncrementGap="100" multiValued="true">
+      <analyzer type="index">
+        <tokenizer class="solr.StandardTokenizerFactory"/>
+        <filter class="solr.StopFilterFactory" ignoreCase="true" words="stopwords.txt" />
+        <!-- in this example, we will only use synonyms at query time
+        <filter class="solr.SynonymFilterFactory" synonyms="index_synonyms.txt" ignoreCase="true" expand="false"/>
+        -->
+        <filter class="solr.LowerCaseFilterFactory"/>
+      </analyzer>
+      <analyzer type="query">
+        <tokenizer class="solr.StandardTokenizerFactory"/>
+        <filter class="solr.StopFilterFactory" ignoreCase="true" words="stopwords.txt" />
+        <filter class="solr.SynonymFilterFactory" synonyms="synonyms.txt" ignoreCase="true" expand="true"/>
+        <filter class="solr.LowerCaseFilterFactory"/>
+      </analyzer>
+    </fieldType>
+ ```
+ - That means, all text specified in that file will be supplied to `StopFilterFactory` and it will ignore case for those words while filtering.
+
+ ##### Stemming
+
+ - It enables you to reduce words to shorter base.
+ - E.g. runs, running, ran all resolve to `run`.
+ - It is available via `PorterStemFilterFactory`.
+
+ ##### Lemmatization
+
+ - It is the opposite of stemming.
+ - Here you can expand single word to multiple form e.g. run -> runs, running, ran etc.
+
+ ##### Others
+ 
  - There is facilty to search spatial data where you have to provide lat , long, and radius info, it will get you the data within the range.
  - There is spell check facilty which can suggest you the exact word in document.
+
+
