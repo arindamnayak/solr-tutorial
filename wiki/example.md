@@ -89,17 +89,18 @@ The DisMax query parser is designed to process simple phrases (without complex s
  	- bq: Boost Query: specifies a factor by which a term or phrase should be "boosted" in importance when considering a match.
  	- bf: Boost Functions: specifies functions to be applied to boosts. (See for details about function queries.)
 ##### Highlighting
+
  	- if you want to highlight the search result, you can use this option. I have used it like this
- 		```
+ >>>
  		hl.fl = description
  		hl.simple.pre = <found>
  		hl.simple.post = </found>
- 		```
+ 		
  	- This means, it will look for desciption field to highlight the result and if that matches, it will wrap with `found` tag around.
  	- Here is the sample section of the result I received.
 
-	 	```
-	 	"highlighting":{
+	 	
+>>> "highlighting":{
 	    "29b71398-3f08-42e5-a3b8-a93409016191":{
 	      "description":["Improve exposure, <found>build</found> <found>community</found>, and increase downloads. Learn how to market your app and manage"]},
 	    "e2c46c4d-d97b-4a20-b03d-23586a5f45ac":{},
@@ -109,13 +110,13 @@ The DisMax query parser is designed to process simple phrases (without complex s
 	    "6f868d20-e0c0-4134-83d8-f1e627ee7c31":{
 	      "description":["Learn how to debug <found>Web</found> applications using automated memory dumps, and how to detect and fix <found>web</found>"]},
 	    " ...
-	    ```
+	   
 ##### Faceting: 
-
-It is the arrangement of search results into categories based on indexed terms.
+     It is the arrangement of search results into categories based on indexed terms.
 	- Searchers are presented with the indexed terms, along with numerical counts of how many matching documents were found were each term. Faceting makes it easy for users to explore search results, narrowing in on exactly the results they are looking for.
 	- In our example, say we want to have faceting for duration in second and we want to show it in 1000 increment. E.g. say we have 10 courses, out of which 3 are of 1000- 2000 second, 4 are of  6000- 7000 second and rest are above 9000 second. Then search result will show following results.
-	 ```
+	
+>>>
 	 1000  (0)
 	 2000  (3)
 	 3000  (0)
@@ -126,10 +127,10 @@ It is the arrangement of search results into categories based on indexed terms.
 	 8000  (0)
 	 9000  (0)
 	 10000 (3)
-	 ```
+ 
 	- Here the value of faceting query we needed - `facet.range=durationinseconds&f.durationinseconds.facet.range.start=2000&f.durationinseconds.facet.range.end=20000&f.durationinseconds.facet.range.gap=1000`. I will turn of facet and use above query in raw parameter as it can't be accomodated in facet query field itself.
 	- Here is the result I will get.
-	```
+>>>
 	"facet_counts":{
     "facet_queries":{},
     "facet_fields":{},
@@ -158,7 +159,7 @@ It is the arrangement of search results into categories based on indexed terms.
         "start":2000,
         "end":20000}},
     "facet_intervals":{},
-    ```
+    
  ##### Synonyms
 
  - As the same suggests, you can specify synonym for any of words being used in query or indexed document. For demo purpose, open [synonyms.txt](../example/Solr-Cores/courses/conf/synonyms.txt) and add `businesstalk => BizTalk`.
