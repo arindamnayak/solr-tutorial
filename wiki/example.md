@@ -100,7 +100,8 @@ The DisMax query parser is designed to process simple phrases (without complex s
  	- Here is the sample section of the result I received.
 
 	 	
->>> "highlighting":{
+>>> 
+"highlighting":{
 	    "29b71398-3f08-42e5-a3b8-a93409016191":{
 	      "description":["Improve exposure, <found>build</found> <found>community</found>, and increase downloads. Learn how to market your app and manage"]},
 	    "e2c46c4d-d97b-4a20-b03d-23586a5f45ac":{},
@@ -131,7 +132,7 @@ The DisMax query parser is designed to process simple phrases (without complex s
 	- Here the value of faceting query we needed - `facet.range=durationinseconds&f.durationinseconds.facet.range.start=2000&f.durationinseconds.facet.range.end=20000&f.durationinseconds.facet.range.gap=1000`. I will turn of facet and use above query in raw parameter as it can't be accomodated in facet query field itself.
 	- Here is the result I will get.
 >>>
-	"facet_counts":{
+    "facet_counts":{
     "facet_queries":{},
     "facet_fields":{},
     "facet_ranges":{
