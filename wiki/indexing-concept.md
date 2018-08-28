@@ -79,4 +79,4 @@ Advantage of Inverted Index are:
 
 ### Vector space model
 
-Vector space model or term vector model is an algebraic model for representing text documents (and any objects, in general) as vectors of identifiers, such as, for example, index terms. It is used in information filtering, information retrieval, indexing and relevancy rankings. 
+SolR uses VSM for calculating score for documents based on matching of fields with that of query and existing document attributes. Vector space model or term vector model is an algebraic model for representing text documents (and any objects, in general) as vectors of identifiers, such as, for example, index terms. It is used in information filtering, information retrieval, indexing and relevancy rankings. 
