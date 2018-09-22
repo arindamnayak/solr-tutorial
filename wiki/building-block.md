@@ -32,3 +32,7 @@ It generates the formatted response of a search. Solr supports a variety of Resp
 
 Many search applications store the content to be indexed in a structured data store, such as a relational database. The Data Import Handler (DIH) provides a mechanism for importing content from a data store and indexing it. DIH can index content from HTTP based data sources such as RSS and ATOM feeds, e-mail repositories, and structured XML where an XPath processor is used to generate fields.
 
+
+##### References
+
+- https://lucene.apache.org/solr/guide/6_6/using-the-solr-administration-user-interface.html

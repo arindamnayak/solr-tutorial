@@ -80,3 +80,11 @@ Advantage of Inverted Index are:
 ### Vector space model
 
 SolR uses VSM for calculating score for documents based on matching of fields with that of query and existing document attributes. Vector space model or term vector model is an algebraic model for representing text documents (and any objects, in general) as vectors of identifiers, such as, for example, index terms. It is used in information filtering, information retrieval, indexing and relevancy rankings. 
+
+
+#### References
+- https://lucene.apache.org/solr/guide/6_6/understanding-analyzers-tokenizers-and-filters.html
+- https://lucene.apache.org/solr/guide/6_6/tokenizers.html
+- https://smarttechie.org/2014/07/10/apache-solr-the-inverted-index/
+- https://lucene.apache.org/core/4_0_0/core/org/apache/lucene/search/similarities/TFIDFSimilarity.html
+- https://lucene.apache.org/core/2_9_4/scoring.html

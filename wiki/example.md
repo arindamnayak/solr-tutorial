@@ -209,3 +209,8 @@ The DisMax query parser is designed to process simple phrases (without complex s
  - There is spell check facilty which can suggest you the exact word in document.
 
 
+##### References
+
+- https://lucene.apache.org/solr/guide/6_6/getting-started.html
+- https://lucene.apache.org/solr/guide/6_6/overview-of-searching-in-solr.html
+
