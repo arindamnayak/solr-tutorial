@@ -5,3 +5,5 @@
 - Say we have text in database and we look for specific keyword in the text, then it will do a FULL table scan which will be slower as compared to Solr text search.
 
 - There is no way to relevancy ranking with DB Full text search which Solr provides.
+
+- With high volume of free-form text, it takes time to get search result with MySQL Full text search. Later to match speed, we usually apply some caching technique, but for cache-miss, we will hit limitation for DB FTS. Then it is time for specialized FTS such as Solr.
